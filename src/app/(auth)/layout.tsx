@@ -1,16 +1,20 @@
-import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
-import '@/app/globals.css';
-import { Toaster } from '@/components/atomics/toaster';
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import "@/app/globals.css";
+import { Toaster } from "@/components/atomics/toaster";
+import ReduxProvider from "@/providers/redux";
 
-const inter = Poppins({ weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], subsets: ['latin']});
+const inter = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: 'Nidejia',
-  description: 'Find Glorious Living And Loving Space',
+  title: "Nidejia",
+  description: "Find Glorious Living And Loving Space",
   icons: {
-    icon: '/favicon.svg'
-  }
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -21,8 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster />
-        {children}
+        <ReduxProvider>
+          <Toaster />
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );
