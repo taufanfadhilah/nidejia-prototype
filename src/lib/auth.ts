@@ -13,7 +13,7 @@ export const authOptions: AuthOptions = {
     Credentials({
       credentials: {
         id: {
-          type: "text",
+          type: "number",
         },
         email: {
           type: "text",
@@ -28,6 +28,17 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session }) => session,
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.id = +user.id;
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.id as number;
+      }
+      return session;
+    },
   },
 };
