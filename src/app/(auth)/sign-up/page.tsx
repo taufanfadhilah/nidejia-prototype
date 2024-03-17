@@ -18,6 +18,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/atomics/use-toast";
 import { useRegisterMutation } from "@/services/auth";
+import { signIn } from "next-auth/react";
 
 const schema = yup.object().shape({
   name: yup.string().min(5).required(),
@@ -50,6 +51,13 @@ function SignUp() {
       }).unwrap();
 
       if (res.success) {
+        const user = res.data;
+        await signIn("credentials", {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          redirect: false,
+        });
         toast({
           title: "Welcome",
           description: "Sign up successfully",

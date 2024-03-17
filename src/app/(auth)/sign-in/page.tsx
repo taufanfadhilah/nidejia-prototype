@@ -18,6 +18,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/atomics/use-toast";
 import { useLoginMutation } from "@/services/auth";
+import { signIn } from "next-auth/react";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -29,6 +30,7 @@ type FormData = yup.InferType<typeof schema>;
 function SignIn() {
   const router = useRouter();
   const { toast } = useToast();
+
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -43,8 +45,15 @@ function SignIn() {
       const res = await login(values).unwrap();
 
       if (res.success) {
+        const user = res.data;
+        await signIn("credentials", {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          redirect: false,
+        });
         toast({
-          title: `Welcome ${res.data.name}`,
+          title: `Welcome ${user.name}`,
           description: "Sign in successfully",
         });
         router.push("/");
