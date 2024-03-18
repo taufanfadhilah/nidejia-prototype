@@ -1,5 +1,6 @@
 export interface CityTransactionProps {
-  image: string
+  id: number,
+  image?: string
   title: string
   location: string
   days: number,
