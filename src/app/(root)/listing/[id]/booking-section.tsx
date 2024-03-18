@@ -13,8 +13,9 @@ interface BookingSectionProps {
 }
 
 function BookingSection({ id, price }: BookingSectionProps) {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  console.log("🚀 ~ BookingSection ~ startDate:", { startDate, endDate });
 
   return (
     <div className="w-full max-w-[360px] xl:max-w-[400px] h-fit space-y-5 bg-white border border-border rounded-[20px] p-[30px] shadow-indicator">
@@ -28,8 +29,16 @@ function BookingSection({ id, price }: BookingSectionProps) {
         /day
       </span>
       <div className="space-y-5">
-        <DatePickerDemo placeholder="Start date" />
-        <DatePickerDemo placeholder="End date" />
+        <DatePickerDemo
+          placeholder="Start date"
+          date={startDate}
+          setDate={setStartDate}
+        />
+        <DatePickerDemo
+          placeholder="End date"
+          date={endDate}
+          setDate={setEndDate}
+        />
       </div>
       <div className="space-y-5">
         <CardBooking title="Total days" value="30 days" />
