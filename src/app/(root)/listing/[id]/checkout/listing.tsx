@@ -1,23 +1,27 @@
 import CardFacility from "@/components/molecules/card/card-facility";
+import { Listing as ListingType } from "@/interfaces/listing";
 import Image from "next/image";
 import React from "react";
 
-function Listing() {
+function Listing({ listing }: { listing: ListingType }) {
   return (
     <div className="w-full max-w-[460px] h-fit p-[30px] space-y-5 bg-white rounded-[30px] shadow-indicator border border-border">
-      <Image
-        src="/images/image-detail-1.svg"
-        alt="image-1"
-        height={0}
-        width={0}
-        className="w-full h-[220px] rounded-[30px]"
-      />
+      {listing?.attachments?.[0] && (
+        <Image
+          src={`${process.env.NEXT_PUBLIC_STORAGE_BASE_URL}/${listing.attachments[0]}`}
+          alt="image-1"
+          height={0}
+          width={0}
+          className="w-full h-[220px] rounded-[30px]"
+          unoptimized
+        />
+      )}
       <h1 className="font-bold text-[22px] leading-[33px] text-secondary">
-        Tedjamudita Buxiang Parahyangan
+        {listing?.title}
       </h1>
       <div className="space-y-3.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center font-semibold leading-6">
+          <div className="flex items-center font-semibold leading-6 max-w-[300px]">
             <Image
               src="/icons/location-dark.svg"
               alt="location-dark"
@@ -25,7 +29,7 @@ function Listing() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            Shanghai, China
+            {listing?.address}
           </div>
           <div className="flex items-center font-semibold leading-6">
             <Image
@@ -35,7 +39,7 @@ function Listing() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            18,209 sqft
+            {listing?.sqft} sqft
           </div>
         </div>
         <div className="flex items-center justify-between">
@@ -47,7 +51,7 @@ function Listing() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            3 people
+            {listing?.max_person} people
           </div>
           <div className="flex items-center font-semibold leading-6">
             <Image
@@ -57,31 +61,39 @@ function Listing() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            10 gbps
+            {listing?.wifi_speed} gbps
           </div>
         </div>
       </div>
       <div className="space-y-3.5">
-        <CardFacility
-          icon="/icons/security.svg"
-          title="24/7 Supports"
-          subtitle="Best People"
-        />
-        <CardFacility
-          icon="/icons/weight.svg"
-          title="Gym Space"
-          subtitle="Complete"
-        />
-        <CardFacility
-          icon="/icons/coffee.svg"
-          title="Mini Cafe"
-          subtitle="Western"
-        />
-        <CardFacility
-          icon="/icons/video-play.svg"
-          title="Cinema"
-          subtitle="All Movies Included"
-        />
+        {listing?.full_suppport_available ? (
+          <CardFacility
+            icon="/icons/security.svg"
+            title="24/7 Supports"
+            subtitle="Best People"
+          />
+        ) : null}
+        {listing?.gym_area_available ? (
+          <CardFacility
+            icon="/icons/weight.svg"
+            title="Gym Space"
+            subtitle="Complete"
+          />
+        ) : null}
+        {listing?.mini_cafe_available ? (
+          <CardFacility
+            icon="/icons/coffee.svg"
+            title="Mini Cafe"
+            subtitle="Western"
+          />
+        ) : null}
+        {listing?.cinema_available ? (
+          <CardFacility
+            icon="/icons/video-play.svg"
+            title="Cinema"
+            subtitle="All Movies Included"
+          />
+        ) : null}
       </div>
     </div>
   );

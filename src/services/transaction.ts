@@ -10,9 +10,17 @@ export const transactionApi = apiSlice.injectEndpoints({
         body: { ...payload },
       }),
     }),
+    transaction: builder.mutation({
+      query: (payload) => ({
+        url: "/transaction",
+        method: "POST",
+        body: { ...payload },
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useCheckAvailabilityMutation } = transactionApi;
+export const { useCheckAvailabilityMutation, useTransactionMutation } =
+  transactionApi;
