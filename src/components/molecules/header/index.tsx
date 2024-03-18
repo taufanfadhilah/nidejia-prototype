@@ -62,7 +62,7 @@ function Header() {
                 section="header"
               />
               <Image
-                src="https://cdn1-production-images-kly.akamaized.net/7ELedlV1INGpDeTpO9ss-gJ-QHk=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4143828/original/014904200_1662047502-rose-blackpink-jadi-global-ambassador-sulwhasoo-6.jpeg"
+                src="/images/avatar.webp"
                 alt="avatar"
                 height={48}
                 width={48}
