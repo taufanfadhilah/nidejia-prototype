@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { format } from "date-fns"
+import moment from 'moment'
 import { Calendar as CalendarIcon } from "lucide-react"
 import Image from 'next/image'
 import { cn } from "@/lib/utils"
@@ -29,12 +29,12 @@ export function DatePickerDemo() {
         >
           <div className="flex gap-4">
             <Image
-              src='/icons/calendar.svg'
-              alt='icon'
+              src="/icons/calendar.svg"
+              alt="icon"
               height={24}
               width={24}
             />
-            {date ? format(date, "PPP") : <span>dd/mm/yyyy</span>}
+            {date ? moment(date).format("MMMM DD, YYYY") : <span>dd/mm/yyyy</span>}
           </div>
           <CalendarIcon className="h-4 w-4" />
         </Button>
@@ -49,5 +49,5 @@ export function DatePickerDemo() {
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }
