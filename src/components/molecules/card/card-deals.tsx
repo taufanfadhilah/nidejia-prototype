@@ -17,11 +17,12 @@ function CardDeals({
       <figure className="relative">
         {image ? (
           <Image
-            src={`http://localhost:8000/storage/${image}`}
+            src={`${process.env.NEXT_PUBLIC_STORAGE_BASE_URL}/${image}`}
             alt={title}
             height={0}
             width={0}
             className="w-[220px] h-[310px] xl:w-[260px] xl:h-[350px] rounded-3xl object-cover bg-gray-300"
+            unoptimized
           />
         ) : (
           <div className="w-[220px] h-[310px] xl:w-[260px] xl:h-[350px] rounded-3xl object-cover bg-gray-300" />
