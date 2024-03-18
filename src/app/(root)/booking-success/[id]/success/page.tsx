@@ -1,11 +1,19 @@
+"use client";
 import { Badge } from "@/components/atomics/badge";
 import { Button } from "@/components/atomics/button";
 import { Separator } from "@/components/atomics/separator";
 import Title from "@/components/atomics/title";
+import { Transaction } from "@/interfaces/transaction";
+import { useGetDetailTransactionQuery } from "@/services/transaction";
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
 
-function BookingSuccess() {
+function BookingSuccess({ params }: { params: { id: string } }) {
+  const { data } = useGetDetailTransactionQuery(params?.id);
+
+  const booking: Transaction = useMemo(() => data?.data, [data]);
+
   return (
     <main>
       <section
@@ -24,23 +32,30 @@ function BookingSuccess() {
         className="container mx-auto -mt-[98px] max-w-[650px] mb-[150px] space-y-5 rounded-[30px] bg-white border border-border shadow-indicator p-[30px]"
       >
         <div className="flex items-center space-x-6">
-          <Image
-            src="/images/image-detail-1.svg"
-            alt="image-1"
-            height={0}
-            width={0}
-            className="w-[180px] h-[130px] rounded-[28px] object-cover"
-          />
+          {booking?.listing?.attachments?.[0] ? (
+            <Image
+              src="/images/image-detail-1.svg"
+              alt="image-1"
+              height={0}
+              width={0}
+              className="w-[180px] h-[130px] rounded-[28px] object-cover"
+            />
+          ) : (
+            <div className="w-[180px] h-[130px] rounded-[28px] object-cover bg-gray-300" />
+          )}
+
           <div className="space-y-2.5">
             <h1 className="font-bold text-[22px] leading-[33px] text-secondary">
-              Tedjamudita Buxiang Parahyangan
+              {booking?.listing?.title}
             </h1>
-            <Badge variant="secondary">Pending</Badge>
+            <Badge variant="secondary" className="uppercase">
+              {booking?.status}
+            </Badge>
           </div>
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="flex items-center font-semibold leading-6">
+          <div className="flex items-center font-semibold leading-6 max-w-[250px]">
             <Image
               src="/icons/location-dark.svg"
               alt="location-dark"
@@ -48,7 +63,7 @@ function BookingSuccess() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            Shanghai, China
+            {booking?.listing.address}
           </div>
           <div className="flex items-center font-semibold leading-6">
             <Image
@@ -58,7 +73,7 @@ function BookingSuccess() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            18,209 sqft
+            {booking?.listing.sqft} sqft
           </div>
           <div className="flex items-center font-semibold leading-6">
             <Image
@@ -68,7 +83,7 @@ function BookingSuccess() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            3 people
+            {booking?.listing.max_person} people
           </div>
           <div className="flex items-center font-semibold leading-6">
             <Image
@@ -78,7 +93,7 @@ function BookingSuccess() {
               width={0}
               className="w-5 h-5 mr-1"
             />
-            10 gbps
+            {booking?.listing.wifi_speed} gbps
           </div>
         </div>
 
