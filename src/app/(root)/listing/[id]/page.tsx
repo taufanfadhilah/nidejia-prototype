@@ -1,20 +1,19 @@
 "use client";
 import Breadcrumbs from "@/components/molecules/breadcrumbs";
-import CardBooking from "@/components/molecules/card/card-booking";
 import CardFacility from "@/components/molecules/card/card-facility";
-import CardReview from "@/components/molecules/card/card-review";
 import CardStar from "@/components/molecules/card/card-star";
 import { Badge } from "@/components/atomics/badge";
 import { Button } from "@/components/atomics/button";
 import Title from "@/components/atomics/title";
 import Image from "next/image";
 import Map from "@/components/molecules/map";
-import { DatePickerDemo } from "@/components/molecules/date-picker";
-import Link from "next/link";
 import ListingShowcase from "@/components/molecules/listing/listing-showcase";
 import { useGetDetailListingQuery } from "@/services/listing";
 import { useMemo } from "react";
 import { Listing } from "@/interfaces/listing";
+import PhotoGallery from "./photo-gallery";
+import BookingSection from "./booking-section";
+import CustomerReviews from "./customer-reviews";
 
 function Detail({ params }: { params: { id: string } }) {
   const { data } = useGetDetailListingQuery(params.id);
@@ -31,53 +30,7 @@ function Detail({ params }: { params: { id: string } }) {
         <div className="px-10 xl:container xl:mx-auto">
           <Breadcrumbs />
 
-          <div className="mt-[30px] grid grid-cols-3 xl:grid-cols-4 gap-x-5">
-            <div className="col-span-2 xl:col-span-3 relative">
-              <Image
-                src="/images/image-detail-1.svg"
-                alt="image-1"
-                height={0}
-                width={0}
-                className="w-full h-[520px] rounded-[30px] object-cover"
-              />
-
-              <div className="absolute bottom-[30px] right-[30px]">
-                <Button className="flex" variant="third">
-                  <Image
-                    src="/icons/direct-right.svg"
-                    alt="direct-right"
-                    height={24}
-                    width={24}
-                    className="mr-2.5"
-                  />
-                  Start Virtual Tour
-                </Button>
-              </div>
-            </div>
-            <div className="space-y-5">
-              <Image
-                src="/images/image-detail-2.svg"
-                alt="image-2"
-                height={0}
-                width={0}
-                className="w-full h-[160px] rounded-[20px] object-cover"
-              />
-              <Image
-                src="/images/image-detail-3.svg"
-                alt="image-3"
-                height={0}
-                width={0}
-                className="w-full h-[160px] rounded-[20px] object-cover"
-              />
-              <Image
-                src="/images/image-detail-4.svg"
-                alt="image-4"
-                height={0}
-                width={0}
-                className="w-full h-[160px] rounded-[20px] object-cover"
-              />
-            </div>
-          </div>
+          <PhotoGallery />
 
           <div className="mt-[30px] grid grid-cols-3 xl:grid-cols-4 gap-x-5">
             <div className="col-span-2 xl:col-span-3 space-y-5 pr-[50px]">
@@ -209,86 +162,10 @@ function Detail({ params }: { params: { id: string } }) {
               />
             ) : null}
           </div>
-          <div>
-            {/* MAPS */}
-            <Map />
-          </div>
-          <div>
-            <h1 className="font-bold text-lg leading-[27px] text-secondary">
-              From Happy Customers
-            </h1>
-            <div className="mt-2.5 grid grid-cols-2 gap-5">
-              <CardReview
-                rating={4}
-                review="I was not so sure if there was a beautiful bedroom, but it was really great experience."
-                avatar="/images/avatar-review.svg"
-                username="Evelin Bie"
-                jobdesk="Full-Time Traveler"
-              />
-              <CardReview
-                rating={4}
-                review="I was not so sure if there was a beautiful bedroom, but it was really great experience."
-                avatar="/images/avatar-review.svg"
-                username="Evelin Bie"
-                jobdesk="Full-Time Traveler"
-              />
-              <CardReview
-                rating={4}
-                review="I was not so sure if there was a beautiful bedroom, but it was really great experience."
-                avatar="/images/avatar-review.svg"
-                username="Evelin Bie"
-                jobdesk="Full-Time Traveler"
-              />
-              <CardReview
-                rating={4}
-                review="I was not so sure if there was a beautiful bedroom, but it was really great experience."
-                avatar="/images/avatar-review.svg"
-                username="Evelin Bie"
-                jobdesk="Full-Time Traveler"
-              />
-            </div>
-          </div>
+          <Map />
+          <CustomerReviews />
         </div>
-        <div className="w-full max-w-[360px] xl:max-w-[400px] h-fit space-y-5 bg-white border border-border rounded-[20px] p-[30px] shadow-indicator">
-          <h1 className="font-bold text-lg leading-[27px] text-secondary">
-            Start Booking
-          </h1>
-          <span className="leading-6">
-            <span className="font-bold text-4xl leading-[54px]">$18,390</span>
-            /day
-          </span>
-          <div className="space-y-5">
-            <DatePickerDemo />
-            <DatePickerDemo />
-          </div>
-          <div className="space-y-5">
-            <CardBooking title="Total days" value="30 days" />
-            <CardBooking title="Sub total" value="$83,422" />
-            <CardBooking title="Tax (15%)" value="$23,399" />
-            <CardBooking title="Insurance" value="$7,492" />
-            <CardBooking title="Grand total price" value="$103,940" />
-          </div>
-          <Link href={`/listing/${params.id}/checkout`}>
-            <Button variant="default" className="mt-4">
-              Book Now
-            </Button>
-          </Link>
-          <div className="bg-gray-light p-5 rounded-[20px] flex items-center space-x-4">
-            <Image
-              src="/icons/medal-star.svg"
-              alt="icon"
-              height={36}
-              width={36}
-            />
-            <div>
-              <Title
-                section="booking"
-                title="77% Off Discount"
-                subtitle="BuildWithAngga card is giving you extra priviledge today."
-              />
-            </div>
-          </div>
-        </div>
+        <BookingSection id={params?.id} />
       </section>
 
       <ListingShowcase
