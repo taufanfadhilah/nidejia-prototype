@@ -9,9 +9,15 @@ export const listingApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getDetailListing: builder.query({
+      query: (slug: string) => ({
+        url: `/listing/${slug}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllListingQuery } = listingApi;
+export const { useGetAllListingQuery, useGetDetailListingQuery } = listingApi;

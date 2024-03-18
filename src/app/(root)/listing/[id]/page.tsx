@@ -12,9 +12,15 @@ import Map from "@/components/molecules/map";
 import { DatePickerDemo } from "@/components/molecules/date-picker";
 import Link from "next/link";
 import ListingShowcase from "@/components/molecules/listing/listing-showcase";
+import { useGetDetailListingQuery } from "@/services/listing";
+import { useMemo } from "react";
 
 function Detail({ params }: { params: { id: string } }) {
-  console.log(params);
+  const { data } = useGetDetailListingQuery(params.id);
+
+  const listing = useMemo(() => data?.data, [data]);
+  console.log("🚀 ~ Detail ~ listing:", listing);
+
   return (
     <main>
       <section
