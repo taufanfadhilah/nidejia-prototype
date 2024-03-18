@@ -19,7 +19,6 @@ function Detail({ params }: { params: { id: string } }) {
   const { data } = useGetDetailListingQuery(params.id);
 
   const listing: Listing | undefined = useMemo(() => data?.data, [data]);
-  console.log("🚀 ~ Detail ~ listing:", listing);
 
   return (
     <main>
@@ -165,7 +164,12 @@ function Detail({ params }: { params: { id: string } }) {
           <Map />
           <CustomerReviews />
         </div>
-        <BookingSection id={params?.id} price={listing?.price_per_day || 0} />
+        {listing && (
+          <BookingSection
+            id={listing.id}
+            price={listing.price_per_day}
+          />
+        )}
       </section>
 
       <ListingShowcase
