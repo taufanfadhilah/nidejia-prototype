@@ -1,21 +1,25 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-import Image from 'next/image'
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/atomics/button"
-import { Calendar } from "@/components/atomics/calendar"
+import * as React from "react";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/atomics/button";
+import { Calendar } from "@/components/atomics/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/atomics/popover"
-import { useState } from "react"
+} from "@/components/atomics/popover";
+import { useState } from "react";
 
-export function DatePickerDemo() {
-  const [date, setDate] = useState<Date>()
+interface DatePickerDemoProps {
+  placeholder: string;
+}
+
+export function DatePickerDemo({ placeholder }: DatePickerDemoProps) {
+  const [date, setDate] = useState<Date>();
 
   return (
     <Popover>
@@ -29,12 +33,12 @@ export function DatePickerDemo() {
         >
           <div className="flex gap-4">
             <Image
-              src='/icons/calendar.svg'
-              alt='icon'
+              src="/icons/calendar.svg"
+              alt="icon"
               height={24}
               width={24}
             />
-            {date ? format(date, "PPP") : <span>dd/mm/yyyy</span>}
+            {date ? format(date, "PPP") : <span>{placeholder}</span>}
           </div>
           <CalendarIcon className="h-4 w-4" />
         </Button>
@@ -49,5 +53,5 @@ export function DatePickerDemo() {
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }
