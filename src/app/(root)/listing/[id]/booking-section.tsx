@@ -27,7 +27,7 @@ function BookingSection({ id }: BookingSectionProps) {
       <div className="space-y-5">
         <CardBooking title="Total days" value="30 days" />
         <CardBooking title="Sub total" value="$83,422" />
-        <CardBooking title="Tax (15%)" value="$23,399" />
+        <CardBooking title="Tax (10%)" value="$23,399" />
         <CardBooking title="Insurance" value="$7,492" />
         <CardBooking title="Grand total price" value="$103,940" />
       </div>
