@@ -14,11 +14,12 @@ import Link from "next/link";
 import ListingShowcase from "@/components/molecules/listing/listing-showcase";
 import { useGetDetailListingQuery } from "@/services/listing";
 import { useMemo } from "react";
+import { Listing } from "@/interfaces/listing";
 
 function Detail({ params }: { params: { id: string } }) {
   const { data } = useGetDetailListingQuery(params.id);
 
-  const listing = useMemo(() => data?.data, [data]);
+  const listing: Listing | undefined = useMemo(() => data?.data, [data]);
   console.log("🚀 ~ Detail ~ listing:", listing);
 
   return (
@@ -84,7 +85,7 @@ function Detail({ params }: { params: { id: string } }) {
 
               <div className="flex items-center justify-between">
                 <h1 className="font-bold text-[32px] leading-[48px] text-secondary max-w-[300px]">
-                  Tedjamudita Buxi Parahyangan
+                  {listing?.title}
                 </h1>
 
                 <div className="flex flex-col items-end text-end">
@@ -104,7 +105,7 @@ function Detail({ params }: { params: { id: string } }) {
                     width={0}
                     className="w-5 h-5 mr-1"
                   />
-                  Shanghai, China
+                  {listing?.address}
                 </div>
                 <div className="flex items-center font-semibold leading-6">
                   <Image
@@ -114,7 +115,7 @@ function Detail({ params }: { params: { id: string } }) {
                     width={0}
                     className="w-5 h-5 mr-1"
                   />
-                  18,209 sqft
+                  {listing?.sqft} sqft
                 </div>
                 <div className="flex items-center font-semibold leading-6">
                   <Image
@@ -124,7 +125,7 @@ function Detail({ params }: { params: { id: string } }) {
                     width={0}
                     className="w-5 h-5 mr-1"
                   />
-                  3 people
+                  {listing?.max_person} people
                 </div>
                 <div className="flex items-center font-semibold leading-6">
                   <Image
@@ -134,7 +135,7 @@ function Detail({ params }: { params: { id: string } }) {
                     width={0}
                     className="w-5 h-5 mr-1"
                   />
-                  10 gbps
+                  {listing?.wifi_speed} gbps
                 </div>
               </div>
             </div>
@@ -176,29 +177,37 @@ function Detail({ params }: { params: { id: string } }) {
           <Title
             section="detail"
             title="About House"
-            subtitle="Riverside house presents a serene and picturesque living experience, nestled along the gentle curves of a meandering river. The architecture of such a house often harmonizes with its natural surroundings, featuring expansive windows and outdoor spaces designed to offer panoramic views of the river gentle curves of a meandering river the living room with its cozy fireplace."
+            subtitle={listing?.description}
           />
           <div className="grid grid-cols-2 gap-5">
-            <CardFacility
-              icon="/icons/security.svg"
-              title="24/7 Supports"
-              subtitle="Best People"
-            />
-            <CardFacility
-              icon="/icons/weight.svg"
-              title="Gym Space"
-              subtitle="Complete"
-            />
-            <CardFacility
-              icon="/icons/coffee.svg"
-              title="Mini Cafe"
-              subtitle="Western"
-            />
-            <CardFacility
-              icon="/icons/video-play.svg"
-              title="Cinema"
-              subtitle="All Movies Included"
-            />
+            {listing?.full_suppport_available ? (
+              <CardFacility
+                icon="/icons/security.svg"
+                title="24/7 Supports"
+                subtitle="Best People"
+              />
+            ) : null}
+            {listing?.gym_area_available ? (
+              <CardFacility
+                icon="/icons/weight.svg"
+                title="Gym Space"
+                subtitle="Complete"
+              />
+            ) : null}
+            {listing?.mini_cafe_available ? (
+              <CardFacility
+                icon="/icons/coffee.svg"
+                title="Mini Cafe"
+                subtitle="Western"
+              />
+            ) : null}
+            {listing?.cinema_available ? (
+              <CardFacility
+                icon="/icons/video-play.svg"
+                title="Cinema"
+                subtitle="All Movies Included"
+              />
+            ) : null}
           </div>
           <div>
             {/* MAPS */}
