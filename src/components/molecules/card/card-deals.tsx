@@ -17,7 +17,7 @@ function CardDeals({
       <figure className="relative">
         {image ? (
           <Image
-            src={image}
+            src={`http://localhost:8000/storage/${image}`}
             alt={title}
             height={0}
             width={0}
