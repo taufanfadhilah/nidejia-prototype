@@ -56,6 +56,7 @@ function SignUp() {
           id: user.id,
           email: user.email,
           name: user.name,
+          token: user.token,
           redirect: false,
         });
         toast({
