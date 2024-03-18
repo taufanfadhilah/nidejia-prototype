@@ -8,18 +8,21 @@ import { useCheckAvailabilityMutation } from "@/services/transaction";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
 
 interface BookingSectionProps {
+  slug: string;
   id: number;
   price: number;
 }
 
-function BookingSection({ id, price }: BookingSectionProps) {
+function BookingSection({ slug, id, price }: BookingSectionProps) {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
   const { toast } = useToast();
+  const router = useRouter();
   const [checkAvailability, { isLoading }] = useCheckAvailabilityMutation();
 
   const booking = useMemo(() => {
@@ -39,14 +42,19 @@ function BookingSection({ id, price }: BookingSectionProps) {
   }, [startDate, endDate]);
 
   const handleBook = async () => {
-    // `/listing/${id}/checkout`;
     try {
-      const res = await checkAvailability({
+      const data = {
         listing_id: id,
         start_date: moment(startDate).format("YYYY-MM-DD"),
         end_date: moment(endDate).format("YYYY-MM-DD"),
-      }).unwrap();
-      console.log("🚀 ~ handleBook ~ res:", res);
+      };
+      const res = await checkAvailability(data).unwrap();
+
+      if (res.success) {
+        router.push(
+          `/listing/${slug}/checkout?start_date=${data.start_date}&end_date=${data.end_date}`
+        );
+      }
     } catch (error: any) {
       if (error.status === 401) {
         toast({
@@ -59,8 +67,13 @@ function BookingSection({ id, price }: BookingSectionProps) {
             </Link>
           ),
         });
+      } else if (error.status === 404) {
+        toast({
+          title: "Something went wrong",
+          description: error.data.message,
+          variant: "destructive",
+        });
       }
-      console.log("🚀 ~ handleBook ~ error:", error);
     }
   };
 
