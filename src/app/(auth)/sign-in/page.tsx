@@ -15,7 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/atomics/use-toast";
 import { useLoginMutation } from "@/services/auth";
 import { signIn } from "next-auth/react";
@@ -30,7 +30,7 @@ type FormData = yup.InferType<typeof schema>;
 function SignIn() {
   const router = useRouter();
   const { toast } = useToast();
-
+  const searchParams = useSearchParams();
   const form = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -46,17 +46,18 @@ function SignIn() {
 
       if (res.success) {
         const user = res.data;
-        await signIn("credentials", {
+        const loginRes = await signIn("credentials", {
           id: user.id,
           email: user.email,
           name: user.name,
+          callbackUrl: searchParams.get("callbackUrl") || "/",
           redirect: false,
         });
         toast({
           title: `Welcome ${user.name}`,
           description: "Sign in successfully",
         });
-        router.push("/");
+        router.push(loginRes?.url || "/");
       }
     } catch (error: any) {
       toast({
