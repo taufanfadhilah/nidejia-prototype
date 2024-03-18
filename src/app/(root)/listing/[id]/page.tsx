@@ -29,7 +29,7 @@ function Detail({ params }: { params: { id: string } }) {
         <div className="px-10 xl:container xl:mx-auto">
           <Breadcrumbs />
 
-          <PhotoGallery />
+          {listing?.attachments && <PhotoGallery photos={listing.attachments} />}
 
           <div className="mt-[30px] grid grid-cols-3 xl:grid-cols-4 gap-x-5">
             <div className="col-span-2 xl:col-span-3 space-y-5 pr-[50px]">
