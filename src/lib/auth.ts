@@ -1,4 +1,5 @@
-import { AuthOptions } from "next-auth";
+import { AuthOptions, User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
@@ -21,6 +22,9 @@ export const authOptions: AuthOptions = {
         name: {
           type: "text",
         },
+        token: {
+          type: "text",
+        },
       },
       authorize: async (credentials, req) => {
         return credentials || null;
@@ -31,12 +35,14 @@ export const authOptions: AuthOptions = {
     jwt: async ({ user, token }) => {
       if (user) {
         token.id = +user.id;
+        token.token = user.token;
       }
       return token;
     },
     session: async ({ session, token }) => {
       if (session?.user) {
         session.user.id = token.id as number;
+        session.user.token = token.token as number;
       }
       return session;
     },

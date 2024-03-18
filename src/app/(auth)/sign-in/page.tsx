@@ -50,6 +50,7 @@ function SignIn() {
           id: user.id,
           email: user.email,
           name: user.name,
+          token: user.token,
           callbackUrl: searchParams.get("callbackUrl") || "/",
           redirect: false,
         });
